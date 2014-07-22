@@ -10,7 +10,5 @@ package gsim;
 public enum SimFunction implements java.io.Serializable {
 	addVertex,
 	addEdge,
-	ppr_teleport,
-	ppr_go;
 }
 

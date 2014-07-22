@@ -59,7 +59,7 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 	 * Starts a working thread to serve SimJob queue events
 	 */
 	public void compute() {
-		(new jobOracleThread()).start();
+		//(new jobOracleThread()).start();  //go through and capitalize the class
 	}
 
 
@@ -192,168 +192,7 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 		graph.addEdge(e,v1,v2,directed);
 		Edge gedge = graph.getEdge(e);
 		gedge.addAttribute("_ui.label", e);
-	}
-	
-	/**
-	 * Adds an event to do a PPR teleport to vertex
-	 * @param v - vertex id
-	 */
-	public void ppr_teleport(final String v)
-	{
-	
-		long id = nextId();
-		String jobName = "PPR_Teleport: " + v;
-		SimFunction fn = SimFunction.ppr_teleport;
-		Object[] args = { v };
-	
-						
-		SimJob simjob = new SimJob(id, jobName, fn, args);
-		addToJobQ(simjob);
-		
-	}
-	/**
-	 * Does a PPR teleport to vertex
-	 * @param v - vertex id
-	 */
-	private void ppr_teleport_helper(String v)
-	{
-		
-		unmarkRecentNode();
-		unmarkEdges();
-		flashBackground();
-		markNode(v);	
-	}
-	
-	/**
-	 * Add an event for a PPR walk from current vertex to vertex v
-	 * @param v - vertex to walk to
-	 */
-	public void ppr_go(final String v)
-	{
-	
-		long id = nextId();
-		String jobName = "PPR_Go: " + v;
-		SimFunction fn = SimFunction.ppr_go;
-		Object[] args = { v };
-	
-						
-		SimJob simjob = new SimJob(id, jobName, fn, args);
-		addToJobQ(simjob);
-		
-	}
-	/**
-	 * Does a PPR walk from current vertex to vertex v
-	 * @param v - vertex to walk to
-	 */
-	public void ppr_go_helper(String v)
-	{
-		
-		//@assert we must go from some node, markedNode!=null
-		
-		Node gnode = graph.getNode(markedNode);
-		Edge connEdge = gnode.getEdgeToward(v);
-		
-		markEdge(connEdge.getId());
-		unmarkRecentNode();
-		markNode(v);
-	}
-	
-	
-	/* Private Methods for manipulating graph marks */
-	/**
-	 * Unmarks the most recently marked node on the graph
-	 */
-	private void unmarkRecentNode()
-	{
-		// Unmark old vertex
-		if (markedNode!=null)
-		{
-			Node gnode = graph.getNode(markedNode);
-			gnode.setAttribute("ui.class", "");	
-		}	
-		markedNode = null;
-	}
-	/**
-	 * Mark the vertex on the graph 
-	 * @param v - vertex id
-	 */
-	private void markNode(String v)
-	{
-		// Set new marked
-		Node gnode = graph.getNode(v);
-		gnode.setAttribute("ui.class", "marked");
-		markedNode = v;
-	}
-	/**
-	 * Mark the vertex on the graph
-	 * @param gnode - the node to mark
-	 */
-	private void markNode(Node gnode)
-	{
-		// Set new marked
-		gnode.setAttribute("ui.class", "marked");
-		markedNode = gnode.getId();
-	}
-	
-	/**
-	 * Unmark most recently marked edge on the graph
-	 */
-	private void unmarkRecentEdge()
-	{
-		// Unmark old edge
-		if (markedEdge!=null)
-		{
-			Edge gedge = graph.getEdge(markedEdge);
-			// TODO: Change to replace marked with ""?
-			gedge.setAttribute("ui.class", "");	
-		}
-		markedEdge=null;
-		
-	}
-	/**
-	 * Mark the edge on the graph
-	 * @param e - edge id to mark
-	 */
-	private void markEdge(String e)
-	{
-		// Set new marked
-		Edge gedge = graph.getEdge(e);
-		gedge.setAttribute("ui.class", "marked");
-		markedEdge = e;
-	}
-	/**
-	 * Mark the edge on the graph
-	 * @param gedge - the edge to mark
-	 */
-	private void markEdge(Edge gedge)
-	{
-		// Set new marked
-		gedge.setAttribute("ui.class", "marked");
-		markedEdge = gedge.getId();
-	}
-	
-	/**
-	 * Unmark all edges on the graph
-	 */
-	private void unmarkEdges()
-	{
-		for (Edge gedge : graph.getEdgeSet())
-		{
-			gedge.setAttribute("ui.class", "");
-		}
-	}
-	
-	/**
-	 * Unmark all nodes on the graph
-	 */
-	public void unmarkNodes()
-	{
-		for (Node gnode : graph.getNodeSet())
-		{
-			gnode.setAttribute("ui.class", "");
-		}
-	}
-	
+	}	
 	
 	/**
 	 * Flashes the background of the UI
@@ -404,17 +243,8 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 								(String)args[2],
 								(Boolean)args[3]); 
 				break;
-
-			case ppr_teleport: 
-				ppr_teleport_helper((String)args[0]);
-				break;
-			case ppr_go: 
-				ppr_go_helper((String)args[0]);
-				break;
 		
-		}
-		
-		//sjob.sfunc.simFunc();
+		}		
 	}
 
 	/**

@@ -25,17 +25,14 @@ public class MainLogic {
 	{
 		gs = new GraphSim("PageRankGraph");
 		
-		// Import vetices/edges to start and init/display graph
+		// Import vertices/edges to start and init/display graph
 		gs.importGraph(graph_file);
 		
 		gs.initSim();
 		
 		
-		//File exportFile = new File("export.txt");
-		//gs.importEvents(exportFile);
 		
-		
-		//Comment out these 2 liens for no animate
+		//Comment out these 2 lines for no animate
 		gs.process();
 		
 		return gs.get_display();
@@ -46,12 +43,6 @@ public class MainLogic {
 	public Graph getGraph()
 	{
 		return gs.getGraph();
-	}
-	
-	public void highlightFilter(String s)
-	{
-		gs.unmarkNodes();
-		gs.markHighlight(s);
 	}
 	
 }

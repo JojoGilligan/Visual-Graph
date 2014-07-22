@@ -44,14 +44,13 @@ public class GraphSim {
 	 * @param graph_name
 	 */
 	public GraphSim(String graph_name) {
-		//this.graph = new SingleGraph(graph_name);
 		this.graph = new SingleGraph(graph_name);
 	}
 
 
 	/**
 	 * display() displays the graph by rendering the UI with the graph from the
-	 * graohstream library
+	 * graphstream library
 	 */
 	public void display() {
 		Viewer vwr = graph.display();
@@ -96,19 +95,6 @@ public class GraphSim {
 	public void process() {
 		galgo.compute();
 	}
-
-	public void markHighlight(String s)
-	{
-		for (Node n : graph.getNodeSet())
-		{
-			if (n.getId().contains(s))
-			{
-				n.setAttribute("ui.class", n.getAttribute("ui.class")+ ",highlight");
-			}
-		}
-	}
-	
-
 	
 	/**
 	 * Import events from a serialized SimJob Array file.
@@ -132,10 +118,6 @@ public class GraphSim {
 		}
 	}
 
-	public void unmarkNodes()
-	{
-		galgo.unmarkNodes();
-	}
 	/**
 	 * Reads the SimJob Array from a serialized file
 	 * @param f - the file that contains the serialized SimJobs
@@ -208,25 +190,6 @@ public class GraphSim {
 	}
 
 	/**
-	 * Add an event for a PPR teleport to vertex v
-	 * @param v - vertex to teleport to
-	 */
-	public void ppr_teleport(String v) {
-		galgo.ppr_teleport(v);
-
-	}
-	
-	
-	
-	/**
-	 * Add an event for a PPR walk from current vertex to vertex v
-	 * @param v - vertex to walk to
-	 */
-	public void ppr_go(String v) {
-		galgo.ppr_go(v);
-	}
-
-	/**
 	 * Takes a file f and adds the vertices/edges to the graph
 	 * @param f - File containing vertex information
 	 */
@@ -291,22 +254,37 @@ public class GraphSim {
 			String[] vertices = v_string.split(in_delimeter);
 			String v1 = vertices[0];
 			String v2 = vertices[1];
-			
-			// Get Edge Details
-			String[] e_functions = e_string.split(in_delimeter);
-			String e="";
-			for (String ef : e_functions)
-			{
-				e += ef + "#";
-			}
-			e = e.substring(0, e.length()-1);
-			
-			//Store in IED
-			ied[i] = new ImportEdgeDetails(v1,v2,e);
+				// Get Edge Details
+				String[] e_functions = e_string.split(in_delimeter);
+				String e="";
+				for (String ef : e_functions)
+				{
+					e += ef + "#";
+				}
+				e = e.substring(0, e.length()-1);
+				ied[i] =  new ImportEdgeDetails(v1, v2, e);
 		}
 		
 		return ied;
 	}
+	private boolean isEdgeAdded(String e){
+		if(e.equals("id(trueLoop)")){
+			return false;
+		}
+		else if(e.equals("id(trueLoopRestart)")){
+			return false;
+		}
+		else if(e.equals("id(defaultRestart)")){
+			return false;
+		}
+		else if(e.equals("id(alphaBooster)")){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+
 	/**
 	 * Given an array of edges to import, add it to the graph
 	 * including adding vertices if required
@@ -315,8 +293,7 @@ public class GraphSim {
 	private void addImportEdgeDetailsToGraph(ImportEdgeDetails[] ied)
 	{
 
-		for (ImportEdgeDetails ed : ied)
-		{
+		for (ImportEdgeDetails ed : ied){
 			
 			//System.out.println(ed.toString());
 			String v1 = ed.v1;
@@ -335,11 +312,14 @@ public class GraphSim {
 				Node n = graph.getNode(v2);
 				n.setAttribute("_ui.label", v2);
 			}
-			
+			if(!v1.equals(v2)){
 			// Bug - add edge
-			graph.addEdge(ed.toString(), v1, v2, true);
-			Edge edge = graph.getEdge(ed.toString());
-			edge.setAttribute("_ui.label", e);
+			if(isEdgeAdded(e)){
+					graph.addEdge(ed.toString(), v1, v2, true);
+					Edge edge = graph.getEdge(ed.toString());
+					edge.setAttribute("_ui.label", e);
+				}
+			}
 		}
 	}
 	
