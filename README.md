@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Welcome to the Visual ProPPR Tool
 =====================================
 
@@ -35,3 +36,9 @@ Documentation
 The documentation can be found in the docs folder, which contains the Java docs.
 
 For details of the graphstream API, you may view the documents either through their java docs or online at http://graphstream-project.org/doc/.
+=======
+Visual-Graph
+============
+
+Repository for the Visual Graph program.
+>>>>>>> dc50deb7bf5243502148375bfe96874137d9c013
