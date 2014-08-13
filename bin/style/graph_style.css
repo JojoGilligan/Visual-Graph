@@ -4,7 +4,7 @@ node {
     text-size: 20px;
     text-alignment: left;
 	text-background-mode: rounded-box;
-	text-background-color: white;
+	text-background-color: yellow;
 }
 
 node :clicked{

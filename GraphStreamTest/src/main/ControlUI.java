@@ -320,23 +320,12 @@ public class ControlUI extends JFrame implements ActionListener, MouseWheelListe
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		 Point point = e.getPoint();
-		 Point3 center = vw.getCamera().getViewCenter();
-		 JLabel pointer_location = new JLabel("Pointer Location:" + point.getX() + ", "
-				 + point.getY() + ", " + point.getY());
-			ctrl_panel.add(pointer_location);
-		 //vw.getCamera().setViewCenter(point.getX(),point.getY(), 0);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		if(vw != null){
-			 Point point = e.getPoint();
-			 mouseX = point.getX();
-			 mouseY = point.getY();
-			 JLabel pointer_location = new JLabel("Pointer Location:" + point.getX() + ", "
-					 + point.getY() + ", " + point.getY());
-				ctrl_panel.add(pointer_location);
+		
 		}
 	}
 	

@@ -196,7 +196,6 @@ public class GraphSim {
 	public void importGraph(File f) {
 		
 		String graphdata = getStringFromFile(f);
-		//System.out.println(graphdata);
 		ImportEdgeDetails[] ied = getImportEdgeDetails(graphdata);
 		addImportEdgeDetailsToGraph(ied);
 		return;
