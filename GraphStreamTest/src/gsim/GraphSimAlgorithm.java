@@ -33,16 +33,16 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 	private int flash_delay = 50;
 	private String markedNode = null;
 	private String markedEdge = null;
-	
+
 	private String graph_bgcolor = "#FFFFCC";
 	private String graph_bgflashcolor = "#FFCC66";
-	
+
 	private Graph graph;
-	
+
 	private long running_jid;
 	private volatile boolean terminate;
 	private volatile Queue<SimJob> jobQ;
-	
+
 	/**
 	 * Initializes the graph sim algorithm with a given graph
 	 * @param graph - graph to use for the graph sim (not null) 
@@ -54,7 +54,7 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 		this.terminate = false;
 		//graph.addSink(this);
 	}
-	
+
 	/**
 	 * Starts a working thread to serve SimJob queue events
 	 */
@@ -63,7 +63,7 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 	}
 
 
-	
+
 	/**
 	 * Thread class for worker thread to serve SimJob Queue 
 	 * @author Brandon Lum
@@ -83,7 +83,7 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 				e.printStackTrace();
 			}
 		}
-		
+
 		/**
 		 * Runs Job Oracle that polls the queue and processes the
 		 * SimJobs
@@ -93,12 +93,12 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 			while (!terminate)
 			{	
 				SimJob sjob;
-				
+
 				synchronized(jobQ)
 				{
 					sjob = jobQ.poll();
 				}
-				
+
 				if (sjob!=null)
 				{
 					processJob(sjob);
@@ -107,19 +107,19 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 				sleep();
 			}
 		}
-		
+
 		/**
 		 * Runs the job oracle
 		 */
-	    public void run() {
-	        jobOracle();
-	    }
+		public void run() {
+			jobOracle();
+		}
 
 
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Terminates the Algorithm if required
 	 */
@@ -128,24 +128,24 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 		//graph.removeSink(this);
 	}
 
-	
+
 	/**
 	 * Add an event to add Vertex v
 	 * @param v - vertex id 
 	 */
 	public void addVertex(final String v)
 	{
-	
+
 		long id = nextId();
 		String jobName = "Add Vertex: " + v;
 		SimFunction fn = SimFunction.addVertex;
 		Object[] args = { v };
-		
-							
+
+
 		SimJob simjob = new SimJob(id, jobName, fn, args);
 		addToJobQ(simjob);
 	}
-	
+
 	/**
 	 * Adds the vertex to the graph
 	 * @param v - vertex id
@@ -156,7 +156,7 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 		Node gnode = graph.getNode(v);
 		gnode.addAttribute("_ui.label", v);
 	}
-	
+
 	/**
 	 * Adds an event to add an edge
 	 * @param e - edge id
@@ -167,18 +167,18 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 	public void addEdge(final String e, final String v1, 
 			final String v2, final boolean directed)
 	{
-	
+
 		long id = nextId();
 		String jobName = "Add Edge: " + e + "(" + v1 + 
 				(directed ? "->" : "<->") + v2 + ")";
 		SimFunction fn = SimFunction.addEdge;
 
 		Object[] args = { e, v1, v2, directed };
-		
-						
+
+
 		SimJob simjob = new SimJob(id, jobName, fn, args);
 		addToJobQ(simjob);
-		
+
 	}
 	/**
 	 * Adds an edge to the graph
@@ -193,7 +193,7 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 		Edge gedge = graph.getEdge(e);
 		gedge.addAttribute("_ui.label", e);
 	}	
-	
+
 	/**
 	 * Flashes the background of the UI
 	 */
@@ -208,9 +208,9 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 		}
 		graph.addAttribute("ui.stylesheet", "graph { fill-color: "+ graph_bgcolor + "; }");
 	}
-	
-	
-	
+
+
+
 	/* Misc util methods */
 	/**
 	 * Retrieves the next job id based on running number
@@ -228,22 +228,22 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 	private void processJob(SimJob sjob)
 	{
 		System.out.println(sjob.toString());
-		
+
 		Object[] args = sjob.args;
-		
+
 		switch(sjob.fn)
 		{
-			case addVertex: 
-				addVertex_helper((String)args[0]); 
-				break;
-				
-			case addEdge: 
-				addEdge_helper((String)args[0],
-								(String)args[1],
-								(String)args[2],
-								(Boolean)args[3]); 
-				break;
-		
+		case addVertex: 
+			addVertex_helper((String)args[0]); 
+			break;
+
+		case addEdge: 
+			addEdge_helper((String)args[0],
+					(String)args[1],
+					(String)args[2],
+					(Boolean)args[3]); 
+			break;
+
 		}		
 	}
 
@@ -257,11 +257,11 @@ public class GraphSimAlgorithm extends SinkAdapter implements DynamicAlgorithm {
 		{
 			jobQ.add(sjob);
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 	// Export Functions
 	/**
 	 * Get the array of SimJobs from the current job queue

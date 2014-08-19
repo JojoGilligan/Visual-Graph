@@ -1,6 +1,6 @@
 package gsim;
 
-/**
+/**http://graphstream-project.org/doc/Tutorials/Storing-retrieving-and-displaying-data-in-graphs_1.0/
  * Edge Details Struct for importing of graph
  * @author brandon
  *
@@ -9,7 +9,7 @@ public class ImportEdgeDetails {
 	public String v1;
 	public String v2;
 	public String e;
-	
+
 	/**
 	 * Constructor
 	 * @param v1 - From vertex id
@@ -22,7 +22,7 @@ public class ImportEdgeDetails {
 		this.v2 = v2;
 		this.e = e;
 	}
-	
+
 	/**
 	 * toString function
 	 */

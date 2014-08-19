@@ -1,20 +1,18 @@
 node {
-    fill-color: blue;
-    size: 10px;
-    text-size: 20px;
-    text-alignment: left;
+	fill-color: blue;
+	size: 10px;
+	text-size: 20px;
+	text-alignment: left;
 	text-background-mode: rounded-box;
 	text-background-color: yellow;
 }
 
-node :clicked{
-    fill-color: green;
-    size: 15px;
-
-    
+node :clicked {
+	fill-color: green;
+	size: 15px;
 }
 
-edge{
+edge {
 	fill-color: black;
 	size: 1px;
 	text-size: 10px;
@@ -22,7 +20,7 @@ edge{
 	text-background-color: white;
 }
 
-edge .marked{
+edge .marked {
 	fill-color: red;
 	size: 3px;
 }
@@ -30,4 +28,3 @@ edge .marked{
 graph {
 	fill-color: #FFFFCC;
 }
-

@@ -7,13 +7,13 @@ package gsim;
  */
 public class SimJob  implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public long id;
-	
+
 	public String jobName;
 	public SimFunction fn;
 	public Object[] args;
-	
+
 	/**
 	 * Constructor
 	 * @param id - id of the SimJob

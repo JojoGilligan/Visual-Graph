@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 
 public class StyleImporter {
-	
+
 	/* getStyle (String stylesheet)
 	 * 
 	 * 
@@ -27,31 +27,31 @@ public class StyleImporter {
 		InputStream input;
 		BufferedReader reader;
 		StringBuilder output;
-		
-		
+
+
 		// Initialize Streams and Readers
 		try{
-		  input = StyleImporter.class.getResourceAsStream(stylesheet);
+			input = StyleImporter.class.getResourceAsStream(stylesheet);
 		} catch(Exception e) { e.printStackTrace(); return null; }
-		
+
 		try{
-		  reader = new BufferedReader(new InputStreamReader(input));
+			reader = new BufferedReader(new InputStreamReader(input));
 		} catch(Exception e) { e.printStackTrace(); return null; }
-		
-		
+
+
 		// Build String
 		try{
 			output = new StringBuilder();
-	        
-	        // Create String
-	        String line;
+
+			// Create String
+			String line;
 			while ((line = reader.readLine()) != null) {
-					output.append(line);
-				}
+				output.append(line);
+			}
 		}
 		catch (Exception e) { e.printStackTrace(); return null; }
-		
-		
+
+
 		// Close Reader
 		finally
 		{
@@ -61,10 +61,10 @@ public class StyleImporter {
 			catch(Exception e)
 			{ e.printStackTrace(); return null; }
 		}
-    
-        
-        return output.toString();
-		
+
+
+		return output.toString();
+
 	}
-	
+
 }
